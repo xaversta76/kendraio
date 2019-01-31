@@ -1,0 +1,7 @@
+{
+  "appId": "io.kendra.app",
+  "appName": "KendraioApp",
+  "bundledWebRuntime": false,
+  "webDir": "docs",
+  "linuxAndroidStudioPath": "/opt/android-studio/bin/studio.sh"
+}
