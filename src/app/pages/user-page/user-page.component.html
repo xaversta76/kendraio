@@ -5,6 +5,11 @@
   <button mat-flat-button [color]="form.touched ? 'primary' : undefined" (click)="saveProfile()">Save</button>
 </mat-card>
 
+<mat-card>
+  <h3>IPN</h3>
+  <p>Add and verify your IPN</p>
+</mat-card>
+
 <mat-card *ngIf="isAuthenticated; else notLoggedIn">
   <h3>Identities</h3>
 
