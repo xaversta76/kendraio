@@ -176,6 +176,8 @@ import { BlockMultiBuilderBoxComponent } from './components/block-multi-builder-
 import { DurationPipe } from './pipes/duration.pipe';
 import { WebMoneyComponent } from './blocks/web-money/web-money.component';
 import { FormlyPaginatedWidgetComponent } from './form-controls/formly-paginated-widget/formly-paginated-widget.component';
+import { TransformerBlockComponent } from './blocks/transformer-block/transformer-block.component';
+import { BlockTransformerEditorBoxComponent } from './components/block-transformer-editor-box/block-transformer-editor-box.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -328,7 +330,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     BlockMultiBuilderBoxComponent,
     DurationPipe,
     WebMoneyComponent,
-    FormlyPaginatedWidgetComponent
+    FormlyPaginatedWidgetComponent,
+    TransformerBlockComponent,
+    BlockTransformerEditorBoxComponent
   ],
   imports: [
     FormlyModule.forRoot({}),

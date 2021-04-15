@@ -548,5 +548,16 @@ export const BLOCK_TYPES = [
       template: 'https://example.com/template.xlsx',
       headerRows: 12
     }
+  },
+  {
+    type: 'transformer',
+    label: 'Transformer',
+    description: 'Transform data using sandboxed JS',
+    icon: 'sync',
+    hasEditor: true,
+    defaultConfig: {
+      type: 'transformer',
+      code: 'return data;'
+    }
   }
 ];

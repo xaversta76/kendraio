@@ -61,6 +61,26 @@
 <!--      <app-breadcrumb [locale]="locale"></app-breadcrumb>-->
       <router-outlet name="popup"></router-outlet>
       <router-outlet></router-outlet>
+
+      <iframe class="sandbox-frame" sandbox="allow-scripts" id='sandboxed' srcdoc="<!DOCTYPE html>
+<html>
+ <head>
+   <title>SANDBOX</title>
+   <script>
+     window.addEventListener('message', function (e) {
+       var mainWindow = e.source;
+       var uuid = e.data.uuid;
+       window.data = e.data.data;
+       try {
+         var result = eval(e.data.code);
+         mainWindow.postMessage({ result: result, uuid: uuid }, event.origin);
+       } catch (e) {
+         mainWindow.postMessage({ error: e.message, uuid: uuid }, event.origin);
+       }
+     });
+   </script>
+ </head>
+</html>"></iframe>
     </div>
 
   </mat-sidenav-content>

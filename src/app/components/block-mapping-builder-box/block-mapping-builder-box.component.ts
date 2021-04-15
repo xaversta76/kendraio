@@ -11,7 +11,7 @@ export class BlockMappingBuilderBoxComponent implements OnInit {
   editorOptions = {
     baseUrl: 'blocks-builder',
     theme: 'vs',
-    language: 'graphql',
+    language: 'text',
     minimap: {
       enabled: false
     },
