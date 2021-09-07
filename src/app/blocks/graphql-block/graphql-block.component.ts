@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import {BaseBlockComponent} from '../base-block/base-block.component';
-import {HttpClient} from '@angular/common/http';
+import { BaseBlockComponent } from '../base-block/base-block.component';
+import { HttpClient } from '@angular/common/http';
 import { get, isObject } from 'lodash';
-import {mappingUtility} from '../mapping-block/mapping-util';
+import { mappingUtility } from '../mapping-block/mapping-util';
+import { fromIntrospectionQuery } from 'graphql-2-json-schema';
 
 @Component({
   selector: 'app-graphql-block',
@@ -43,6 +44,14 @@ export class GraphqlBlockComponent extends BaseBlockComponent {
       return;
     }
 
+    if (this.query === '') {
+      this.query = get(data,"query","");
+      if (!data) {
+        return;
+      }
+    } 
+    const asJsonScema = get(this.config, 'asJsonScema', true);
+
     let payload;
     let headers;
     try {
@@ -68,10 +77,16 @@ export class GraphqlBlockComponent extends BaseBlockComponent {
 
     this.hasError = false;
     this.isLoading = true;
-    this.http.post(this.endpoint, payload, { headers })
+    this.http.post(this.endpoint || data.endpoint, payload, { headers })
       .subscribe(result => {
         this.isLoading = false;
-        this.output.emit(result);
+        if (asJsonScema) {
+          console.dir('query response', result)
+          const schema = fromIntrospectionQuery(get(result, 'data', {}), {});
+          this.output.emit(schema);
+        } else {
+          this.output.emit(result);
+        }
       }, error => {
         this.hasError = true;
         this.isLoading = false;

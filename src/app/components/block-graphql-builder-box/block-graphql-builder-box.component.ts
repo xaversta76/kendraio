@@ -39,6 +39,7 @@ export class BlockGraphqlBuilderBoxComponent implements OnInit {
   headerModel = '';
   allowEmpty = false;
   allowFirst = false;
+  asJsonScema = false;
   endpointFormControl = new FormControl();
 
   constructor() { }
@@ -49,6 +50,7 @@ export class BlockGraphqlBuilderBoxComponent implements OnInit {
     this.headerModel = JSON.stringify(get(this.block, 'headers', {}), null, 2);
     this.allowEmpty = get(this.block, 'allowEmpty', false);
     this.allowFirst = get(this.block, 'allowEmpty', false);
+    this.asJsonScema = get(this.block, 'asJsonScema', false);
     this.endpointFormControl.setValue(get(this.block, 'endpoint', ''));
   }
 
@@ -61,6 +63,7 @@ export class BlockGraphqlBuilderBoxComponent implements OnInit {
       headers: JSON.parse(this.headerModel || '{}'),
       allowFirst: this.allowFirst,
       allowEmpty: this.allowEmpty,
+      asJsonScema: this.asJsonScema,
     };
   }
 }

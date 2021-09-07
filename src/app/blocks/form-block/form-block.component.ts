@@ -35,6 +35,8 @@ export class FormBlockComponent implements OnInit, OnChanges, OnDestroy {
 
   schemaBlocks = [];
 
+  dataTemp = '';
+
   constructor(
     private readonly formService: KendraioFormService
   ) { }
@@ -58,6 +60,10 @@ export class FormBlockComponent implements OnInit, OnChanges, OnDestroy {
   ngOnDestroy() {
     this._changes.complete();
   }
+  
+  //onData(data: any, firstChange: boolean) {
+    //this.dataTemp = data;
+  ///}
 
   ngOnChanges(changes): void {
     const keyChanges = Object.keys(changes);
@@ -75,7 +81,7 @@ export class FormBlockComponent implements OnInit, OnChanges, OnDestroy {
       }
       if (keyChanges.length === 1 && keyChanges.includes('context')) {
         // exit if only the context was changed
-        return;
+        //return;
       }
     }
 
@@ -96,7 +102,11 @@ export class FormBlockComponent implements OnInit, OnChanges, OnDestroy {
           this.fields = fields;
         });
     } else if (has(this.config, 'jsonSchema') && has(this.config, 'uiSchema')) {
-      const { jsonSchema, uiSchema } = this.config;
+      let { jsonSchema, uiSchema } = this.config;
+      if (has(this.config, 'schemaFromContext')) {
+        jsonSchema = get(this.context, 'form_schema', {});
+        console.dir(['set jsonSchema using context.form_schema:', jsonSchema]);
+      }
       this.fields = this.formService.schemasToFieldConfig(jsonSchema, uiSchema);
     } else if (has(this.config,  'schemaGetter')) {
       this.fields = [];
