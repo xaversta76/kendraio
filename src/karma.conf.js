@@ -30,6 +30,7 @@ module.exports = function (config) {
         base: 'Electron',
         flags: ['--no-sandbox'],
         browserWindowOptions: {
+          show: true,
           webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
