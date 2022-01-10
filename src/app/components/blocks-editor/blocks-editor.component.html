@@ -4,7 +4,19 @@
     <mat-expansion-panel-header>
       <mat-icon class="drag-handle" cdkDragHandle>reorder</mat-icon>
       <app-kendraio-icon [icon]="blockIcons[block.type]||''"></app-kendraio-icon>
-      <span class="block-type-title">{{ blockTypes[block.type]?.label||block.type}}{{ block.blockTitle ? ":"+block.blockTitle :""}}</span>      
+      <span class="block-type-title">{{ blockTypes[block.type]?.label||block.type}}
+        
+        <span class="blockTitleHint" 
+        title="ℹ️ Edit helpful hints e.g: what the block does here"
+        contenteditable="true"
+        (keydown.Space)="$event.stopImmediatePropagation();"
+        (click)="$event.stopImmediatePropagation();"
+        (mousedown)="$event.stopImmediatePropagation();"
+        (mouseup)="$event.stopImmediatePropagation();"
+        >
+          {{block.blockTitle||''}}
+        </span>
+      </span>      
     </mat-expansion-panel-header>
     
 
