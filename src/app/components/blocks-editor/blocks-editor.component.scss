@@ -1,4 +1,16 @@
 @use '@angular/material' as mat;
+.blockTitleHint:hover {
+  border: 1px solid black;
+}
+
+.blockTitleHint {
+  display: inline-block;
+  color: rgb(100,100,100);
+  font-size: small;
+  margin-left: 0.5em;
+  cursor: text;
+  min-width: 6em;
+}
 
 .block-type-title {
   flex: 1;
