@@ -13,8 +13,10 @@
         (click)="$event.stopImmediatePropagation();"
         (mousedown)="$event.stopImmediatePropagation();"
         (mouseup)="$event.stopImmediatePropagation();"
+        [textContent]="block.blockTitle"
+        (input)="block.blockTitle=$event.target.textContent"
         >
-          {{block.blockTitle||''}}
+          {{model}}
         </span>
       </span>      
     </mat-expansion-panel-header>
