@@ -3,6 +3,7 @@ import { BaseBlockComponent } from '../base-block/base-block.component';
 import { get, isNull, isObject, isString, isUndefined } from 'lodash-es';
 import { LocalDatabaseService } from '../../services/local-database.service';
 import { mappingUtility } from '../mapping-block/mapping-util';
+import { validate as isValidUUID } from 'uuid';
 
 @Component({
   selector: 'app-db-block',
@@ -123,56 +124,22 @@ export class DbBlockComponent extends BaseBlockComponent {
         return;
       }
       case 'upsert': {
-        // upsert does not exist on LocalDatabaseService, we check if data already exists. If it does we update it, otherwise we add it:
-        if (!isUndefined(data) && !isNull(data)) {
-          console.log("upsert has data", data);
-        } else {
-          console.log("upsert has no data");
+        // we check that data.uuid is defined and not null:
+        if (isValidUUID(data.uuid) === false) {
+          this.hasError = true;
+          this.errorMessage = 'UUID is not valid';
           return;
         }
-        const schema = this.schemaGetter
-          ? mappingUtility({ data: this.model, context: this.context }, this.schemaGetter)
-          : this.schema;
-        this.localDatabase.fetch({ uuid: data.uuid }).then(function(result) {
-          console.log("upsert is checking existing db state and got:", JSON.stringify(result), result.length);
-          if (result.length > 0) {
-            console.log('upsert is updating from:', result, 'to:', data);
-            this.localDatabase.update({
-              uuid: data.uuid, 
-              data
-            }).then(function(result){
-              this.isLoading = false;
-              this.output.emit(result);
-              console.log('upsert update complete');
-            }.bind(this));
-          } else {
-            console.log('upsert trying inserting:', data);
-            // use add method but handle ConstraintError promise rejection
-            this.localDatabase.add({
-              adapterName: this.adapterName,
-              schema,
-              data
-            }).then(function(result) {
-              this.isLoading = false;
-              this.output.emit(result);
-              console.log('upsert insert complete');
-            }.bind(this)).catch(function(error) {
-              console.log('upsert insert failed with error:', error);
-              // if error is ConstraintError, try updating instead
-              if (error.name === 'ConstraintError') {
-                console.log('upsert is updating from:', result, 'to:', data);
-                this.localDatabase.update({
-                  uuid: data.uuid, 
-                  data
-                }).then(function(result){
-                  this.isLoading = false;
-                  this.output.emit(result);
-                  console.log('upsert update complete');
-                }.bind(this));
-              }
-            }.bind(this));
-          }
-        }.bind(this));
+
+        this.localDatabase.put({
+          adapterName: this.adapterName,
+          schema: this.schema,
+          data
+        }).then(function (result) {
+          this.isLoading = false;
+          this.output.emit();
+        }
+          .bind(this));
         return;
       }
       default:

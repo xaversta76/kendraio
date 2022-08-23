@@ -84,6 +84,18 @@ export class LocalDatabaseService extends Dexie {
   }
 
   /**
+   * Put an item in the database (upsert).
+   * @param item {object} - the item to put, including the uuid
+   * @returns a promise with the key under which the object was stored in the Table (uuid)
+   * @see https://dexie.org/docs/Dexie/Dexie.Table.html#put
+   */
+  put({adapterName, schema: schemaName, data}) {
+    const uuid = _get(data, 'uuid', v4());
+    const label = _get(data, '_label', _get(data, 'name'));
+    return this['metadata'].put({uuid, adapterName, schemaName, data, label});
+  }
+
+  /**
    * Load a specific item from the database.
    * @param uuid {string} - the uuid of the item to load   
    * @returns A promise that resolves to the item
