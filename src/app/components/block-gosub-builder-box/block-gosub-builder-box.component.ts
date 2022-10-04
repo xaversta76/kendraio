@@ -23,7 +23,9 @@ export class BlockGosubBuilderBoxComponent implements OnInit {
 
   adapterNameFormControl: FormControl = new FormControl();
   workflowIdFormControl:  FormControl = new FormControl();  
-  blockCommentFormControl = new FormControl(); 
+  modelGetterFormControl:  FormControl = new FormControl();  
+  contextGetterFormControl: FormControl = new FormControl();  
+  blockCommentFormControl: FormControl = new FormControl(); 
 
 
 
@@ -35,6 +37,8 @@ export class BlockGosubBuilderBoxComponent implements OnInit {
   ngOnInit(): void {
     this.adapterNameFormControl.setValue(get(this.block, 'adapterName', ''));
     this.workflowIdFormControl.setValue(get(this.block, 'workflowId', ''));        
+    this.modelGetterFormControl.setValue(get(this.block, 'modelGetter', ''));   
+    this.contextGetterFormControl.setValue(get(this.block, 'contextGetter', ''));             
     this.blockCommentFormControl.setValue(get(this.block, 'blockComment', ''));
     this.getData();
 
@@ -64,8 +68,9 @@ export class BlockGosubBuilderBoxComponent implements OnInit {
       ...this.block,
       adapterName: this.adapterNameFormControl.value,
       workflowId: this.workflowIdFormControl.value,      
+      modelGetter: this.modelGetterFormControl.value,
+      contextGetter: this.contextGetterFormControl.value,
       blockComment: this.blockCommentFormControl.value,
-
     };
   }
 
